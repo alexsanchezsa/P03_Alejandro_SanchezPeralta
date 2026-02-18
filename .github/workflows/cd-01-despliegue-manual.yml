@@ -4,6 +4,8 @@ name: "CD #1 - El Boton de Despliegue Manual"
 on:
   workflow_dispatch:
   push:
+    branches:
+      - fix6
 
 jobs:
   empaquetar:
