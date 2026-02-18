@@ -23,6 +23,8 @@ jobs:
         run: mvn -B clean package -DskipTests
 
       - name: Enviar WAR al servidor remoto por SCP
+        id: deploy
+        if: ${{ secrets.SSH_HOST != '' }}
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -31,3 +33,9 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           source: "target/*.war"
           target: "/opt/tomcat/webapps/"
+
+      - name: Validacion de Despliegue (Simulacion)
+        if: ${{ secrets.SSH_HOST == '' }}
+        run: |
+          echo "⚠️ Secretos SSH no configurados. Saltando despliegue real."
+          echo "✅ Simulacion: El WAR se habria enviado a /opt/tomcat/webapps/"
