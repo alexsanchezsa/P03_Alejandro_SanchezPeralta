@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.aura.reviews"},{"l":"com.aura.reviews.controller"},{"l":"com.aura.reviews.entity"},{"l":"com.aura.reviews.repository"},{"l":"com.aura.reviews.service"}];updateSearchResults();

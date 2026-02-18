@@ -1,0 +1,5 @@
+com.aura.reviews
+com.aura.reviews.controller
+com.aura.reviews.entity
+com.aura.reviews.repository
+com.aura.reviews.service
