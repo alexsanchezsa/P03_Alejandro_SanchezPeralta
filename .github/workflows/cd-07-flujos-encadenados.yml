@@ -1,0 +1,39 @@
+name: "CD #7 - Flujos Encadenados (Dependencies)"
+
+# Se activa cuando el workflow de CI "El Vigilante Universal" termina
+on:
+  workflow_run:
+    workflows: ["CI #1 - El Vigilante Universal"]
+    types:
+      - completed
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    # Solo se ejecuta si el CI termino con exito
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Descargar codigo fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Generar paquete WAR
+        run: mvn -B clean package -DskipTests
+
+      - name: Subir WAR como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: AuraReviews-WAR
+          path: target/*.war
+
+      - name: Confirmar despliegue
+        run: |
+          echo "CI paso correctamente. CD ejecutado con exito."
+          echo "Workflow CI: ${{ github.event.workflow_run.name }}"
+          echo "Resultado CI: ${{ github.event.workflow_run.conclusion }}"
