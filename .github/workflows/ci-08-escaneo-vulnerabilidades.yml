@@ -15,14 +15,14 @@ jobs:
       - name: Configurar JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
 
       - name: Compilar proyecto
         run: mvn -B clean compile
 
       - name: Ejecutar OWASP Dependency-Check
-        run: mvn org.owasp:dependency-check-maven:check
+        run: mvn -B clean compile org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
 
       - name: Subir informe de vulnerabilidades
         if: always()
