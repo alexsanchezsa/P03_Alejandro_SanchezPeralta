@@ -4,7 +4,7 @@ name: "CD #3 - Publicacion de Versiones Oficiales (Releases)"
 on:
   push:
     branches:
-      - fix2-ci-workflows
+      - fix3-ci-workflows
     tags:
       - "v*"
 

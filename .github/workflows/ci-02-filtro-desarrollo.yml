@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - feature-dev
-      - fix2-ci-workflows
+      - fix3-ci-workflows
 
 jobs:
   compilar-y-test:

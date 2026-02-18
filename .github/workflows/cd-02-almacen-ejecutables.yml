@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-      - fix2-ci-workflows
+      - fix3-ci-workflows
 
 jobs:
   empaquetar:
