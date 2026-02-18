@@ -1,0 +1,32 @@
+name: "CI #3 - El Estandar Java 21"
+
+# Se activa en cada push a cualquier rama
+on:
+  push:
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21 (Zulu)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+      - name: Verificar version de Java
+        run: |
+          java -version
+          JAVA_MAJOR=$(java -version 2>&1 | head -n 1 | awk -F'"' '{print $2}' | awk -F'.' '{print $1}')
+          if [ "$JAVA_MAJOR" != "21" ]; then
+            echo "ERROR: Se requiere Java 21 pero se encontro Java $JAVA_MAJOR"
+            exit 1
+          fi
+          echo "Java 21 verificado correctamente"
+
+      - name: Compilar con Maven
+        run: mvn compile

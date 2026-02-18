@@ -1,0 +1,23 @@
+name: "CI #5 - Memoria Inteligente (Caching)"
+
+# Se activa en cada push a cualquier rama
+on:
+  push:
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21 con cache de Maven
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Compilar y ejecutar tests
+        run: mvn -B clean test

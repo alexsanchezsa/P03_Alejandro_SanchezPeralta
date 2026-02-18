@@ -1,0 +1,24 @@
+name: "CI #4 - Limpieza y Silencio (Modo Batch)"
+
+# Se activa en cada push a cualquier rama
+on:
+  push:
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Limpiar y compilar en modo batch
+        # -B (--batch-mode): desactiva barras de progreso y produce un log limpio
+        # clean: elimina la carpeta target antes de compilar
+        run: mvn -B clean test

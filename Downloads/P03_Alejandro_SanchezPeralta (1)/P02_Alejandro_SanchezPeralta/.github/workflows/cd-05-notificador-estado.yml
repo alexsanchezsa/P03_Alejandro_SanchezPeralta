@@ -1,0 +1,36 @@
+name: "CD #5 - Notificador de Estado"
+
+# Se activa en push a main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Generar paquete WAR
+        run: mvn -B clean package -DskipTests
+
+      - name: Notificar estado del despliegue
+        run: |
+          echo "=========================================="
+          echo " DESPLIEGUE COMPLETADO CON EXITO"
+          echo "=========================================="
+          echo " Fecha: $(date +'%Y-%m-%d %H:%M:%S')"
+          echo " Autor: ${{ github.actor }}"
+          echo " Rama: ${{ github.ref_name }}"
+          echo " Commit: ${{ github.sha }}"
+          echo " Mensaje: Despliegue realizado correctamente"
+          echo "=========================================="
