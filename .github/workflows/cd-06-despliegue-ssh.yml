@@ -3,6 +3,7 @@ name: "CD #6 - Despliegue Remoto por SSH"
 # Se activa manualmente
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   desplegar:
@@ -15,8 +16,8 @@ jobs:
       - name: Configurar JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
 
       - name: Generar paquete WAR
         run: mvn -B clean package -DskipTests

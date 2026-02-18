@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - feature-dev
+      - fix2-ci-workflows
 
 jobs:
   compilar-y-test:
@@ -17,8 +18,8 @@ jobs:
       - name: Configurar JDK 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
 
       - name: Compilar y ejecutar tests
         run: mvn compile test
