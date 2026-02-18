@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!-- Panel de informes con gráficos estadísticos usando Chart.js -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Informes</title>
+</head>
+<body>
+<section layout:fragment="contenido">
+    <div class="mb-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+                <li class="breadcrumb-item active">Análisis</li>
+            </ol>
+        </nav>
+        <h1 class="h3 mb-0">
+            <i class="bi bi-graph-up-arrow text-primary me-2"></i>Panel de Informes
+        </h1>
+        <p class="text-muted mb-0">Estadísticas y KPIs del sistema Aura Reviews</p>
+    </div>
+
+    <!-- Fila 1: Clientes por género y Reviews por estrellas -->
+    <div class="row mb-4">
+        <!-- KPI 1: Clientes por género -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-gender-ambiguous me-2"></i>Clientes por Género
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoGenero"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI 2: Reviews por estrellas -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-warning">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-star-fill me-2"></i>Reviews por Valoración
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoEstrellas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila 2: Clientes por edad e Intolerancias -->
+    <div class="row mb-4">
+        <!-- KPI 3: Clientes por franjas de edad -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-info">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-person-badge me-2"></i>Clientes por Franjas de Edad
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoEdad"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI 4: Clientes con/sin intolerancia -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Clientes con Intolerancias
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="graficoIntolerancia"></canvas>
+                    <div class="alert alert-info mt-3 mb-0">
+                        <small>
+                            <strong>Justificación:</strong> Este gráfico permite conocer el porcentaje de clientes 
+                            con necesidades especiales alimentarias, lo cual es crucial para adaptar el menú y 
+                            mejorar el servicio personalizado.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div layout:fragment="scripts">
+    <script th:inline="javascript">
+        // Datos del servidor (Thymeleaf)
+        const clientesPorGenero = /*[[${clientesPorGenero}]]*/ {};
+        const reviewsPorEstrellas = /*[[${reviewsPorEstrellas}]]*/ {};
+        const clientesPorEdad = /*[[${clientesPorEdad}]]*/ {};
+        const clientesPorIntolerancia = /*[[${clientesPorIntolerancia}]]*/ {};
+
+        // Configuración de colores
+        const coloresGenero = [
+            'rgba(54, 162, 235, 0.8)',   // Azul
+            'rgba(255, 99, 132, 0.8)',   // Rosa
+            'rgba(153, 102, 255, 0.8)',  // Púrpura
+            'rgba(255, 159, 64, 0.8)'    // Naranja
+        ];
+
+        const coloresEstrellas = [
+            'rgba(220, 53, 69, 0.8)',    // 1 estrella - Rojo
+            'rgba(253, 126, 20, 0.8)',   // 2 estrellas - Naranja
+            'rgba(255, 193, 7, 0.8)',    // 3 estrellas - Amarillo
+            'rgba(40, 167, 69, 0.8)',    // 4 estrellas - Verde claro
+            'rgba(25, 135, 84, 0.8)'     // 5 estrellas - Verde oscuro
+        ];
+
+        const coloresEdad = [
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)',
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(201, 203, 207, 0.8)'
+        ];
+
+        // Gráfico 1: Clientes por Género (Pie Chart)
+        const ctxGenero = document.getElementById('graficoGenero').getContext('2d');
+        new Chart(ctxGenero, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(clientesPorGenero),
+                datasets: [{
+                    data: Object.values(clientesPorGenero),
+                    backgroundColor: coloresGenero,
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Gráfico 2: Reviews por Estrellas (Bar Chart)
+        const ctxEstrellas = document.getElementById('graficoEstrellas').getContext('2d');
+        new Chart(ctxEstrellas, {
+            type: 'bar',
+            data: {
+                labels: ['1 ★', '2 ★', '3 ★', '4 ★', '5 ★'],
+                datasets: [{
+                    label: 'Número de reviews',
+                    data: [
+                        reviewsPorEstrellas[1] || 0,
+                        reviewsPorEstrellas[2] || 0,
+                        reviewsPorEstrellas[3] || 0,
+                        reviewsPorEstrellas[4] || 0,
+                        reviewsPorEstrellas[5] || 0
+                    ],
+                    backgroundColor: coloresEstrellas,
+                    borderWidth: 1,
+                    borderColor: coloresEstrellas.map(c => c.replace('0.8', '1'))
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        // Gráfico 3: Clientes por Franjas de Edad (Doughnut Chart)
+        const ctxEdad = document.getElementById('graficoEdad').getContext('2d');
+        new Chart(ctxEdad, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(clientesPorEdad),
+                datasets: [{
+                    data: Object.values(clientesPorEdad),
+                    backgroundColor: coloresEdad,
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Gráfico 4: Clientes con/sin Intolerancia (Polar Area Chart)
+        const ctxIntolerancia = document.getElementById('graficoIntolerancia').getContext('2d');
+        new Chart(ctxIntolerancia, {
+            type: 'polarArea',
+            data: {
+                labels: Object.keys(clientesPorIntolerancia),
+                datasets: [{
+                    data: Object.values(clientesPorIntolerancia),
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 0.7)',
+                        'rgba(75, 192, 192, 0.7)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</div>
+</body>
+</html>

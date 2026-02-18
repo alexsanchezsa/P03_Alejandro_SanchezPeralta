@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- Permite crear una nueva review o editar una existente. -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title th:text="${review.id} != null ? 'Editar review' : 'Nueva review'">Review</title>
+</head>
+<body>
+<section layout:fragment="contenido">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a th:href="@{/reviews}" class="text-decoration-none">Reviews</a></li>
+                    <li class="breadcrumb-item active" th:text="${review.id} != null ? 'Editar' : 'Nueva'">Formulario</li>
+                </ol>
+            </nav>
+            <h1 class="h3 mb-0">
+                <i class="bi bi-star-fill text-primary me-2"></i>
+                <span th:text="${review.id} != null ? 'Editar review' : 'Nueva review'"></span>
+            </h1>
+        </div>
+        <a class="btn btn-outline-secondary" th:href="@{/reviews}">
+            <i class="bi bi-arrow-left me-1"></i>Volver
+        </a>
+    </div>
+
+    <!-- Tarjeta con formulario -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form th:action="@{/reviews}" th:object="${review}" method="post" class="row g-3" novalidate>
+                <input type="hidden" th:field="*{id}"/>
+
+                <!-- Campo: Cliente -->
+                <div class="col-md-12">
+                    <label class="form-label" for="cliente">
+                        Cliente <span class="text-danger">*</span>
+                    </label>
+                    <select id="cliente" class="form-select" th:field="*{cliente.id}" required>
+                        <option value="">-- Seleccione un cliente --</option>
+                        <option th:each="c : ${clientes}" th:value="${c.id}">
+                            <span th:text="${c.nombre + ' - Edad: ' + c.edad + ' - ' + c.genero}"></span>
+                        </option>
+                    </select>
+                    <div class="form-text">Selecciona el cliente que realiza la review.</div>
+                </div>
+
+                <!-- Campo: Valoración (estrellas) -->
+                <div class="col-md-12">
+                    <label class="form-label" for="valoracion">
+                        Valoración <span class="text-danger">*</span>
+                    </label>
+                    <div class="mb-2">
+                        <div class="btn-group" role="group" aria-label="Valoración con estrellas">
+                            <input type="radio" class="btn-check" name="valoracion" id="star1" th:field="*{valoracion}" value="1" required>
+                            <label class="btn btn-outline-warning" for="star1">
+                                <i class="bi bi-star-fill"></i> 1
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="valoracion" id="star2" th:field="*{valoracion}" value="2">
+                            <label class="btn btn-outline-warning" for="star2">
+                                <i class="bi bi-star-fill"></i> 2
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="valoracion" id="star3" th:field="*{valoracion}" value="3">
+                            <label class="btn btn-outline-warning" for="star3">
+                                <i class="bi bi-star-fill"></i> 3
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="valoracion" id="star4" th:field="*{valoracion}" value="4">
+                            <label class="btn btn-outline-warning" for="star4">
+                                <i class="bi bi-star-fill"></i> 4
+                            </label>
+                            
+                            <input type="radio" class="btn-check" name="valoracion" id="star5" th:field="*{valoracion}" value="5">
+                            <label class="btn btn-outline-warning" for="star5">
+                                <i class="bi bi-star-fill"></i> 5
+                            </label>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('valoracion')}" th:errors="*{valoracion}">
+                        Error de validación
+                    </div>
+                    <div class="form-text">Selecciona de 1 a 5 estrellas (similar a Google Reviews).</div>
+                </div>
+
+                <!-- Campo: Descripción -->
+                <div class="col-12">
+                    <label class="form-label" for="descripcion">
+                        Descripción <span class="text-danger">*</span>
+                    </label>
+                    <textarea id="descripcion" class="form-control" th:field="*{descripcion}"
+                              th:classappend="${#fields.hasErrors('descripcion')} ? ' is-invalid'" 
+                              placeholder="Escribe aquí tu opinión sobre el servicio..." 
+                              maxlength="500" rows="5" required></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">
+                        Error de validación
+                    </div>
+                    <div class="form-text">Máximo 500 caracteres.</div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="col-12">
+                    <hr class="my-3">
+                    <div class="d-flex justify-content-end gap-2">
+                        <a class="btn btn-outline-secondary" th:href="@{/reviews}">
+                            <i class="bi bi-x-circle me-1"></i>Cancelar
+                        </a>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-save me-1"></i>Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- Permite crear un nuevo cliente o editar uno existente. -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title th:text="${cliente.id} != null ? 'Editar cliente' : 'Nuevo cliente'">Cliente</title>
+</head>
+<body>
+<section layout:fragment="contenido">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a th:href="@{/clientes}" class="text-decoration-none">Clientes</a></li>
+                    <li class="breadcrumb-item active" th:text="${cliente.id} != null ? 'Editar' : 'Nuevo'">Formulario</li>
+                </ol>
+            </nav>
+            <h1 class="h3 mb-0">
+                <i class="bi bi-person-fill text-primary me-2"></i>
+                <span th:text="${cliente.id} != null ? 'Editar cliente' : 'Nuevo cliente'"></span>
+            </h1>
+        </div>
+        <a class="btn btn-outline-secondary" th:href="@{/clientes}">
+            <i class="bi bi-arrow-left me-1"></i>Volver
+        </a>
+    </div>
+
+    <!-- Tarjeta con formulario -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form th:action="@{/clientes}" th:object="${cliente}" method="post" class="row g-3" novalidate>
+                <input type="hidden" th:field="*{id}"/>
+
+                <!-- Campo: Nombre -->
+                <div class="col-md-6">
+                    <label class="form-label" for="nombre">
+                        Nombre <span class="text-danger">*</span>
+                    </label>
+                    <input id="nombre" type="text" class="form-control" th:field="*{nombre}"
+                           th:classappend="${#fields.hasErrors('nombre')} ? ' is-invalid'" 
+                           placeholder="Ej. María García" maxlength="100" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">
+                        Error de validación
+                    </div>
+                </div>
+
+                <!-- Campo: Edad -->
+                <div class="col-md-6">
+                    <label class="form-label" for="edad">
+                        Edad <span class="text-danger">*</span>
+                    </label>
+                    <input id="edad" type="number" class="form-control" th:field="*{edad}"
+                           th:classappend="${#fields.hasErrors('edad')} ? ' is-invalid'" 
+                           placeholder="Ej. 25" min="0" max="120" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('edad')}" th:errors="*{edad}">
+                        Error de validación
+                    </div>
+                </div>
+
+                <!-- Campo: Género -->
+                <div class="col-md-6">
+                    <label class="form-label" for="genero">
+                        Género <span class="text-danger">*</span>
+                    </label>
+                    <select id="genero" class="form-select" th:field="*{genero}"
+                            th:classappend="${#fields.hasErrors('genero')} ? ' is-invalid'" required>
+                        <option value="">-- Seleccione género --</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                        <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+                    </select>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}">
+                        Error de validación
+                    </div>
+                </div>
+
+                <!-- Campo: Intolerancia (checkbox) -->
+                <div class="col-md-6">
+                    <label class="form-label d-block">Intolerancia alimentaria</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="intolerancia" 
+                               th:field="*{intolerancia}" onchange="toggleDetalleIntolerancia()">
+                        <label class="form-check-label" for="intolerancia">
+                            ¿Tiene alguna intolerancia?
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Campo: Detalle de Intolerancia (condicional) -->
+                <div class="col-12" id="detalleIntoleranciaCampo" style="display: none;">
+                    <label class="form-label" for="detalleIntolerancia">
+                        Detalle de intolerancia
+                    </label>
+                    <textarea id="detalleIntolerancia" class="form-control" th:field="*{detalleIntolerancia}"
+                              th:classappend="${#fields.hasErrors('detalleIntolerancia')} ? ' is-invalid'" 
+                              placeholder="Ej. Intolerancia a la lactosa" 
+                              maxlength="255" rows="3"></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('detalleIntolerancia')}" th:errors="*{detalleIntolerancia}">
+                        Error de validación
+                    </div>
+                    <div class="form-text">Especifica el tipo de intolerancia que tiene el cliente.</div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="col-12">
+                    <hr class="my-3">
+                    <div class="d-flex justify-content-end gap-2">
+                        <a class="btn btn-outline-secondary" th:href="@{/clientes}">
+                            <i class="bi bi-x-circle me-1"></i>Cancelar
+                        </a>
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-save me-1"></i>Guardar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div layout:fragment="scripts">
+    <script>
+        // Mostrar/ocultar campo de detalle de intolerancia
+        function toggleDetalleIntolerancia() {
+            const checkbox = document.getElementById('intolerancia');
+            const campo = document.getElementById('detalleIntoleranciaCampo');
+            campo.style.display = checkbox.checked ? 'block' : 'none';
+        }
+        
+        // Ejecutar al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleDetalleIntolerancia();
+        });
+    </script>
+</div>
+</body>
+</html>
