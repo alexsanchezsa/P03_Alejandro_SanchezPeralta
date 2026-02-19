@@ -1,4 +1,4 @@
-name: "CI #2 - El Filtro de Desarrollo"
+name: "CI #2 - Filtro de Desarrollo"
 
 # Solo se dispara cuando el push va dirigido a la rama "feature-dev"
 on:
