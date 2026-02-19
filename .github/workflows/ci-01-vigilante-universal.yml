@@ -1,4 +1,4 @@
-name: "CI #1 - El Vigilante Universal"
+name: "CI #1 - Compilacion General"
 
 # Se activa en cada push a CUALQUIER rama del repositorio
 on:
