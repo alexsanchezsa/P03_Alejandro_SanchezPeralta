@@ -1,4 +1,4 @@
-name: "CI #5 - Memoria Inteligente (Caching)"
+name: "CI #5 - Build con Cache"
 
 # Se activa en cada push a cualquier rama
 on:
