@@ -1,4 +1,4 @@
-name: "CD #2 - El Almacen de Ejecutables"
+name: "CD #2 - Almacen de Artefactos"
 
 # Se activa manualmente o en push a main
 on:
