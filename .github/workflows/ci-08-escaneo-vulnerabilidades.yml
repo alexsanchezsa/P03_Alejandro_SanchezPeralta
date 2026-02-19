@@ -1,4 +1,4 @@
-name: "CI #8 - Escaneo de Vulnerabilidades (SecOps)"
+name: "CI #8 - Escaneo de Vulnerabilidades"
 
 # Se activa en cada push a cualquier rama
 on:
