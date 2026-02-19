@@ -4,7 +4,7 @@ name: "CD #3 - Publicacion de Versiones Oficiales (Releases)"
 on:
   push:
     branches:
-      - fix4
+      - fix9
     tags:
       - "v*"
 
