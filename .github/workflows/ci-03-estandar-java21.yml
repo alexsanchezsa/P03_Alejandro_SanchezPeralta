@@ -1,4 +1,4 @@
-name: "CI #3 - El Estandar Java 21"
+name: "CI #3 - Verificacion Java 21"
 
 # Se activa en cada push a cualquier rama
 on:
