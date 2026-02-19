@@ -22,3 +22,5 @@ jobs:
         # -B (--batch-mode): desactiva barras de progreso y produce un log limpio
         # clean: elimina la carpeta target antes de compilar
         run: mvn -B clean test
+
+# Triggered for fix9
