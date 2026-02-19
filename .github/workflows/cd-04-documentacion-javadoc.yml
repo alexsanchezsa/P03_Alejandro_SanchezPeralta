@@ -1,4 +1,4 @@
-name: "CD #4 - Web de Documentacion Tecnica (Javadoc)"
+name: "CD #4 - Despliegue Javadoc"
 
 # Se activa en push a main
 on:
