@@ -1,4 +1,4 @@
-name: "CI #7 - El Camaleon Multiplataforma"
+name: "CI #7 - Test Multiplataforma"
 
 # Se activa en cada push a cualquier rama
 on:
