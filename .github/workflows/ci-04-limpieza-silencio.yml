@@ -1,4 +1,4 @@
-name: "CI #4 - Limpieza y Silencio (Modo Batch)"
+name: "CI #4 - Build en Lote"
 
 # Se activa en cada push a cualquier rama
 on:
