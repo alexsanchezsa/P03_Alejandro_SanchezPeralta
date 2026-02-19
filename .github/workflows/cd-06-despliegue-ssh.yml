@@ -1,4 +1,4 @@
-name: "CD #6 - Despliegue Remoto por SSH"
+name: "CD #6 - Despliegue SSH"
 
 # Se activa manualmente
 on:
