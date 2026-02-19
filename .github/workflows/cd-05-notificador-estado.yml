@@ -1,4 +1,4 @@
-name: "CD #5 - Notificador de Estado"
+name: "CD #5 - Notificacion de Estado"
 
 # Se activa en push a main
 on:
