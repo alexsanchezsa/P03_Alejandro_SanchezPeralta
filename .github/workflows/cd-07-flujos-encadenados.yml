@@ -1,4 +1,4 @@
-name: "CD #7 - Flujos Encadenados (Dependencies)"
+name: "CD #7 - Despliegue Encadenado"
 
 # Se activa cuando el workflow de CI "El Vigilante Universal" termina
 on:
