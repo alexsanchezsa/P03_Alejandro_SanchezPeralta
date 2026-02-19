@@ -1,4 +1,4 @@
-name: "CI #6 - Evidencias en caso de Desastre"
+name: "CI #6 - Reporte de Fallos"
 
 # Se activa en cada push a cualquier rama
 on:
