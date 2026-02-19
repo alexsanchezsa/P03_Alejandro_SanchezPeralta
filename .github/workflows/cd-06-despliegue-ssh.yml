@@ -42,3 +42,5 @@ jobs:
         run: |
           echo "⚠️ Secretos SSH no configurados. Saltando despliegue real."
           echo "✅ Simulacion: El WAR se habria enviado a /opt/tomcat/webapps/"
+
+# Triggered for fix9
