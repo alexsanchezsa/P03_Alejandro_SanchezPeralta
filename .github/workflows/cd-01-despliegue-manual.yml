@@ -1,4 +1,4 @@
-name: "CD #1 - El Boton de Despliegue Manual"
+name: "CD #1 - Despliegue Manual"
 
 # Solo se ejecuta manualmente desde la interfaz de GitHub (boton "Run workflow")
 on:
