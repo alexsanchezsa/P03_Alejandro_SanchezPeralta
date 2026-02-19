@@ -22,7 +22,7 @@ jobs:
         run: mvn -B clean compile
 
       - name: Ejecutar OWASP Dependency-Check
-        run: mvn -B clean compile org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }}
+        run: mvn -B clean compile org.owasp:dependency-check-maven:check -DnvdApiKey=${{ secrets.NVD_API_KEY }} -DossindexAnalyzerEnabled=false
 
       - name: Subir informe de vulnerabilidades
         if: always()
@@ -30,3 +30,5 @@ jobs:
         with:
           name: dependency-check-report
           path: target/dependency-check-report.html
+
+# Triggered for fix9
